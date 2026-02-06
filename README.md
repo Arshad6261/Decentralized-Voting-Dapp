@@ -5,27 +5,27 @@ A transparent and secure blockchain-based voting application built with React.js
 
 ## 📜 Smart Contract Overview
 
- [cite_start]The logic is handled by the `Vote.sol` smart contract[cite: 4], which manages the following entities:
+The logic is handled by the `Vote.sol` smart contract, which manages the following entities:
 
-* [cite_start]**Voter:** Can register and cast a vote if they hold GLD Tokens[cite: 6, 124].
-* [cite_start]**Candidate:** Anyone (except the commissioner) can register as a candidate (Max limit: 2 candidates)[cite: 15, 63, 64].
-* [cite_start]**Election Commissioner:** The deployer of the contract who manages the election timeline and announces results[cite: 25, 40].
+* **Voter:** Can register and cast a vote if they hold GLD Tokens.
+* **Candidate:** Anyone (except the commissioner) can register as a candidate (Max limit: 2 candidates).
+* **Election Commissioner:** The deployer of the contract who manages the election timeline and announces results.
 
 ## 🚀 Features
 
 ### 👮 Admin (Election Commissioner)
-* [cite_start]**Set Voting Period:** Define the start and end duration for the election[cite: 132].
-* [cite_start]**Emergency Stop:** Halt the election immediately in case of issues[cite: 155].
-* [cite_start]**Announce Results:** Calculate votes and publish the winner's address to the blockchain.
+* **Set Voting Period:** Define the start and end duration for the election.
+* **Emergency Stop:** Halt the election immediately in case of issues.
+* **Announce Results:** Calculate votes and publish the winner's address to the blockchain.
 
 ### 🗳️ Voter Portal
-* [cite_start]**Self-Registration:** Users can register their profile (Name, Age, Gender)[cite: 99].
-* [cite_start]**Token-Gated Voting:** **Requirement:** Voter must hold `> 0` GLD Tokens to cast a vote.
-* [cite_start]**Duplicate Check:** Ensures one vote per wallet address[cite: 126].
+* **Self-Registration:** Users can register their profile (Name, Age, Gender).
+* **Token-Gated Voting:** **Requirement:** Voter must hold `> 0` GLD Tokens to cast a vote.
+* **Duplicate Check:** Ensures one vote per wallet address.
 
 ### 👤 Candidate Portal
-* [cite_start]**Self-Registration:** Users can register as candidates with details (Party, Age, Gender)[cite: 56].
-* [cite_start]**Live Vote Tracking:** Candidates can see their vote count in real-time[cite: 85].
+* **Self-Registration:** Users can register as candidates with details (Party, Age, Gender).
+* **Live Vote Tracking:** Candidates can see their vote count in real-time.
 
 ---
 
@@ -44,7 +44,7 @@ A transparent and secure blockchain-based voting application built with React.js
 Before running this project, ensure you have:
 1.  **Node.js** (v14+) installed.
 2.  **MetaMask** extension installed in your browser.
-3.  [cite_start]**GLD Token Contract Address:** You must deploy a standard ERC20 token first, as the Voting contract requires its address in the constructor[cite: 38].
+3.  **GLD Token Contract Address:** You must deploy a standard ERC20 token first, as the Voting contract requires its address in the constructor.
 
 ---
 
@@ -82,22 +82,23 @@ When deploying `Vote.sol`, you must pass the address of the ERC20 token:
 ```javascript
 const gldTokenAddress = "0x..."; // Your GLD Token Address
 const vote = await Vote.deploy(gldTokenAddress);
-
+```
+---
 ### 2. Election Setup (Admin)
 * **Connect:** Connect with the wallet used to deploy the contract (Election Commission).
 * **Navigate:** Go to the Admin Dashboard.
 * **Set Timer:** Set the **Voting Period** (in seconds).
-    > **Note:** The contract uses a hardcoded base timestamp. [cite_start]Ensure durations are calculated correctly relative to `1720799550` (or update the contract base time before deployment). [cite: 134]
+    > **Note:** The contract uses a hardcoded base timestamp. Ensure durations are calculated correctly relative to `1720799550` (or update the contract base time before deployment).
 
 ### 3. Registration (Candidates & Voters)
 * **Candidates:** Connect a different wallet and register.
-    * [cite_start]*Constraint:* Only 2 candidates are allowed by default in the current contract logic. [cite: 63]
+    * **Constraint:** Only 2 candidates are allowed by default in the current contract logic.
 * **Voters:** Connect a wallet holding **GLD Tokens** and register.
 
 ### 4. Voting Phase
-* [cite_start]**Status Change:** Once the `startTime` is reached, the status automatically changes to `InProgress`. [cite: 141]
+* **Status Change:** Once the `startTime` is reached, the status automatically changes to `InProgress`.
 * **Casting Votes:** Voters can select a candidate and click **Vote**.
-    > [cite_start]**Important:** The transaction will fail if the user has **0 GLD Tokens**. [cite: 124]
+    > **Important:** The transaction will fail if the user has **0 GLD Tokens**.
 
 ### 5. Results
-* [cite_start]**Announce:** Once `endTime` passes, the Admin clicks **Announce Result** to write the winner to the blockchain. [cite: 146]
+* **Announce:** Once `endTime` passes, the Admin clicks **Announce Result** to write the winner to the blockchain.
