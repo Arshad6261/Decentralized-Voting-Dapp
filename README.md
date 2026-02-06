@@ -1,6 +1,7 @@
 # Decentralized Voting DApp (Web3)
 
 A transparent and secure blockchain-based voting application built with React.js, Solidity, and Ethers.js. This DApp utilizes an ERC20 token (`GLDToken`) for voter eligibility verification and supports three distinct user roles: Voters, Candidates, and an Election Commissioner.
+<b>Demo Link : <a href="https://voting-dapp-three-mu.vercel.app/">Click Here</a></b>
 
 ## 📜 Smart Contract Overview
 
@@ -82,25 +83,21 @@ When deploying `Vote.sol`, you must pass the address of the ERC20 token:
 const gldTokenAddress = "0x..."; // Your GLD Token Address
 const vote = await Vote.deploy(gldTokenAddress);
 
-2. Election Setup (Admin)
-Connect with the wallet used to deploy the contract (Election Commission).
+### 2. Election Setup (Admin)
+* **Connect:** Connect with the wallet used to deploy the contract (Election Commission).
+* **Navigate:** Go to the Admin Dashboard.
+* **Set Timer:** Set the **Voting Period** (in seconds).
+    > **Note:** The contract uses a hardcoded base timestamp. [cite_start]Ensure durations are calculated correctly relative to `1720799550` (or update the contract base time before deployment). [cite: 134]
 
-Go to the Admin Dashboard.
+### 3. Registration (Candidates & Voters)
+* **Candidates:** Connect a different wallet and register.
+    * [cite_start]*Constraint:* Only 2 candidates are allowed by default in the current contract logic. [cite: 63]
+* **Voters:** Connect a wallet holding **GLD Tokens** and register.
 
-Set the Voting Period (in seconds). Note: The contract uses a base timestamp, ensure durations are calculated correctly relative to 1720799550 (or update the contract base time).
+### 4. Voting Phase
+* [cite_start]**Status Change:** Once the `startTime` is reached, the status automatically changes to `InProgress`. [cite: 141]
+* **Casting Votes:** Voters can select a candidate and click **Vote**.
+    > [cite_start]**Important:** The transaction will fail if the user has **0 GLD Tokens**. [cite: 124]
 
-3. Registration (Candidates & Voters)
-Candidates: Connect a different wallet and register. (Note: Only 2 candidates allowed by default) .
-
-Voters: Connect a wallet holding GLD Tokens and register.
-
-4. Voting Phase
-Once the startTime is reached, the status changes to InProgress.
-
-Voters can select a candidate and click Vote.
-
-
-Note: The transaction will fail if the user has 0 GLD Tokens.
-
-5. Results
-Once endTime passes, the Admin clicks Announce Result to write the winner to the blockchain.
+### 5. Results
+* [cite_start]**Announce:** Once `endTime` passes, the Admin clicks **Announce Result** to write the winner to the blockchain. [cite: 146]
